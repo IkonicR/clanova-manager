@@ -78,6 +78,27 @@ const mockClanData = {
   ],
 };
 
+// Mock personal player stats - will be replaced with API data later
+const mockPlayerStats = {
+  name: "You (FirePhoenix)",
+  tag: "#8UCQPJ29L",
+  townHallLevel: 12,
+  trophies: 4350,
+  leagueId: 29000022, // Legend League
+  leagueIcon: "https://api-assets.clashofclans.com/leagues/72/R6hllk5_4L__GX6kn6RlnT-0W66KDHVBf1dwoB8x6Yg.png",
+  donations: 943,
+  donationsReceived: 756,
+  warStars: 532,
+  attackWins: 38,
+  defenseWins: 12,
+  versusTrophies: 3850,
+  achievements: {
+    completedCount: 28,
+    totalStars: 86,
+    nextAchievement: "Wall Buster - Level 8"
+  }
+};
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
@@ -134,11 +155,99 @@ const Index = () => {
         
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto">
-          {/* Stats Overview - Spans 2 columns on medium+ screens */}
+          {/* Personal Stats Section - Spans full width on all screens */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
+            className="col-span-1 md:col-span-3 h-full"
+          >
+            <div className="clan-card bg-gradient-to-br from-clan-gold/20 to-clan-dark/60 p-5">
+              <h3 className="card-heading flex items-center">
+                <span className="relative mr-3">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-clan-gold to-clan-accent blur-md opacity-50"></div>
+                  <span className="relative z-10 text-clan-gold">⭐</span>
+                </span>
+                Personal Stats
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-4">
+                {/* Player Info */}
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-clan-dark to-clan-darker flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-clan-gold/20 to-clan-accent/20 opacity-50"></div>
+                      <span className="text-3xl">👑</span>
+                      <div className="absolute bottom-0 left-0 w-full h-6 flex items-center justify-center bg-clan-dark/80 text-xs font-bold">
+                        TH{mockPlayerStats.townHallLevel}
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white">{mockPlayerStats.name}</h4>
+                    <p className="text-white/70 text-xs">{mockPlayerStats.tag}</p>
+                    <div className="flex items-center mt-1">
+                      <img src={mockPlayerStats.leagueIcon} alt="League" className="w-5 h-5 mr-1" />
+                      <span className="text-xs text-white/90">{mockPlayerStats.trophies}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* War Stats */}
+                <div className="space-y-2">
+                  <div className="text-xs text-white/70">War Stars</div>
+                  <div className="flex items-center">
+                    <span className="text-xl font-bold text-white">{mockPlayerStats.warStars}</span>
+                    <span className="text-clan-gold ml-1">⭐</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-clan-dark rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-clan-gold to-clan-accent rounded-full" style={{ width: "78%" }}></div>
+                  </div>
+                  <div className="text-xs text-white/70">Progress to 700 stars</div>
+                </div>
+                
+                {/* Donation Stats */}
+                <div className="space-y-2">
+                  <div className="text-xs text-white/70">Donations</div>
+                  <div className="flex items-center space-x-2">
+                    <div>
+                      <div className="text-white font-semibold">{mockPlayerStats.donations}</div>
+                      <div className="text-xs text-white/70">Given</div>
+                    </div>
+                    <div className="text-white/50">|</div>
+                    <div>
+                      <div className="text-white font-semibold">{mockPlayerStats.donationsReceived}</div>
+                      <div className="text-xs text-white/70">Received</div>
+                    </div>
+                    <div className="text-white/50">|</div>
+                    <div>
+                      <div className="text-white font-semibold">1.25</div>
+                      <div className="text-xs text-white/70">Ratio</div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Achievement Stats */}
+                <div className="space-y-2">
+                  <div className="text-xs text-white/70">Achievements</div>
+                  <div className="flex items-center">
+                    <span className="text-xl font-bold text-white">{mockPlayerStats.achievements.completedCount}</span>
+                    <span className="text-xs text-white/70 ml-1">completed</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <div className="text-clan-gold text-xs">★★★</div>
+                    <div className="text-xs text-white/70">{mockPlayerStats.achievements.totalStars} total stars</div>
+                  </div>
+                  <div className="text-xs text-white/70">Next: {mockPlayerStats.achievements.nextAchievement}</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        
+          {/* Stats Overview - Spans 2 columns on medium+ screens */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="col-span-1 md:col-span-2 h-full"
           >
             <StatsOverview stats={mockClanData.stats} />
@@ -148,7 +257,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className="col-span-1 row-span-2 h-full"
           >
             <CurrentWarStatus war={mockClanData.war} />
@@ -158,7 +267,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="col-span-1 md:col-span-2 h-full"
           >
             <TopMembers members={mockClanData.members} />
@@ -168,7 +277,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
             className="col-span-1 h-full"
           >
             <div className="clan-card h-full bg-gradient-to-br from-purple-900/40 to-clan-dark/60">
@@ -185,7 +294,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className="col-span-1 h-full"
           >
             <div className="clan-card h-full bg-gradient-to-br from-clan-accent/30 to-clan-dark/60">
@@ -202,7 +311,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
             className="col-span-1 h-full"
           >
             <div className="clan-card h-full bg-gradient-to-br from-cyan-800/40 to-clan-dark/60">
