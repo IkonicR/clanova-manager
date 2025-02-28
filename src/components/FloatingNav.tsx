@@ -48,10 +48,10 @@ const FloatingNav = () => {
 
   return (
     <motion.div
-      initial={{ y: 100, opacity: 0 }}
+      initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 glass-darker rounded-full shadow-2xl ${
+      className={`fixed top-5 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 glass-darker rounded-full shadow-2xl ${
         hasScrolled ? "border border-clan-accent/30" : "border border-white/10"
       }`}
     >
