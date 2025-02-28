@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Mock data - will be replaced with API data later
 const mockClanData = {
-  name: "Dragon Warriors",
+  name: "Equidor Reborn",
   tag: "#2LJCVV928",
   level: 12,
   description: "Strong active war clan. We donate max troops and siege machines. Wars back to back. CWL Masters III.",
@@ -122,10 +122,100 @@ const Index = () => {
         transition={{ duration: 0.6 }}
         className="container px-4 pt-6 relative z-10"
       >
-        <ClanHeader clanData={mockClanData} />
-        <StatsOverview stats={mockClanData.stats} />
-        <CurrentWarStatus war={mockClanData.war} />
-        <TopMembers members={mockClanData.members} />
+        {/* Clan Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-6"
+        >
+          <ClanHeader clanData={mockClanData} />
+        </motion.div>
+        
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto">
+          {/* Stats Overview - Spans 2 columns on medium+ screens */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="col-span-1 md:col-span-2 h-full"
+          >
+            <StatsOverview stats={mockClanData.stats} />
+          </motion.div>
+          
+          {/* War Status - Tall box on the right */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="col-span-1 row-span-2 h-full"
+          >
+            <CurrentWarStatus war={mockClanData.war} />
+          </motion.div>
+          
+          {/* Top Members - Spans 2 columns on medium+ screens */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="col-span-1 md:col-span-2 h-full"
+          >
+            <TopMembers members={mockClanData.members} />
+          </motion.div>
+          
+          {/* Additional Bento Boxes */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="col-span-1 h-full"
+          >
+            <div className="clan-card h-full bg-gradient-to-br from-purple-900/40 to-clan-dark/60">
+              <h3 className="card-heading">Clan Games</h3>
+              <div className="flex items-center justify-center h-32">
+                <div className="text-center">
+                  <p className="text-white/70 text-sm">Next clan games starts in</p>
+                  <p className="text-2xl font-bold text-white mt-2">3 days 12 hours</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="col-span-1 h-full"
+          >
+            <div className="clan-card h-full bg-gradient-to-br from-clan-accent/30 to-clan-dark/60">
+              <h3 className="card-heading">Donations</h3>
+              <div className="flex items-center justify-center h-32">
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-white">14,320</p>
+                  <p className="text-white/70 text-sm mt-1">Total this season</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="col-span-1 h-full"
+          >
+            <div className="clan-card h-full bg-gradient-to-br from-cyan-800/40 to-clan-dark/60">
+              <h3 className="card-heading">Clan Capital</h3>
+              <div className="flex items-center justify-center h-32">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-white">Capital Peak</p>
+                  <p className="text-white/70 text-sm mt-1">Level 7</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
 
       <FloatingNav />
