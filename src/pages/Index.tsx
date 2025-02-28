@@ -22,7 +22,7 @@ const mockClanData = {
     capitalTrophies: 846,
   },
   war: {
-    status: "inWar",
+    status: "inWar" as const, // Using const assertion to ensure it's a literal type
     opponent: {
       name: "Elite Warriors",
       tag: "#9PQ82YG2",
