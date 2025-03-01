@@ -15,33 +15,47 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const queryClient = new QueryClient();
+// Configure React Query with better error handling
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      onError: (error) => {
+        console.error("Query error:", error);
+      }
+    }
+  }
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/members" element={<Members />} />
-            <Route path="/wars" element={<Wars />} />
-            <Route path="/trophies" element={<Trophies />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/clan-lookup" element={
-              <ProtectedRoute>
-                <ClanLookup />
-              </ProtectedRoute>
-            } />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+console.log("App component initialized");
+
+const App = () => {
+  console.log("App component rendering");
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              {/* Make Clan Lookup directly accessible for debugging */}
+              <Route path="/clan-lookup" element={<ClanLookup />} />
+              <Route path="/members" element={<Members />} />
+              <Route path="/wars" element={<Wars />} />
+              <Route path="/trophies" element={<Trophies />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

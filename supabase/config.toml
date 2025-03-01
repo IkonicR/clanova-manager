@@ -53,3 +53,6 @@ enable_signup = true
 [functions]
 [functions.getPlayerData]
 verify_jwt = false
+
+[functions.getclashclandata]
+verify_jwt = false
