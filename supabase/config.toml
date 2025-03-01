@@ -17,8 +17,6 @@ max_rows = 1000
 [db]
 # Port to use for the local database URL.
 port = 54322
-# Port used by the Database Studio UI.
-studio_port = 54323
 
 [studio]
 # Port to use for Supabase Studio.
@@ -55,4 +53,3 @@ enable_signup = true
 [functions]
 [functions.getPlayerData]
 verify_jwt = false
-
