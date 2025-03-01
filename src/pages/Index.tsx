@@ -7,6 +7,7 @@ import StatsOverview from "../components/StatsOverview";
 import CurrentWarStatus from "../components/CurrentWarStatus";
 import TopMembers from "../components/TopMembers";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 // Mock data - will be replaced with API data later
 const mockClanData = {
@@ -102,11 +103,27 @@ const mockPlayerStats = {
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  
+  console.log("Index component rendering");
 
   useEffect(() => {
+    // Logging to check if Supabase is connected
+    const checkSupabase = async () => {
+      try {
+        console.log("Checking Supabase connection...");
+        const { data, error } = await supabase.from('player_data').select('*').limit(1);
+        console.log("Supabase response:", { data, error });
+      } catch (err) {
+        console.error("Supabase connection error:", err);
+      }
+    };
+    
+    checkSupabase();
+    
     // Simulate loading data
     const timer = setTimeout(() => {
       setIsLoading(false);
+      console.log("Loading complete");
       toast({
         title: "Clan data loaded",
         description: "Successfully retrieved clan information",
@@ -117,6 +134,7 @@ const Index = () => {
   }, [toast]);
 
   if (isLoading) {
+    console.log("Rendering loading state");
     return (
       <div className="flex items-center justify-center min-h-screen bg-clan-darker">
         <div className="flex flex-col items-center">
@@ -130,6 +148,7 @@ const Index = () => {
     );
   }
 
+  console.log("Rendering main content");
   return (
     <div className="min-h-screen bg-clan-darker text-white pb-24">
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
