@@ -9,8 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      clan_members: {
+        Row: {
+          clan_tag: string
+          created_at: string | null
+          id: string
+          role: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          clan_tag: string
+          created_at?: string | null
+          id?: string
+          role?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          clan_tag?: string
+          created_at?: string | null
+          id?: string
+          role?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       player_data: {
         Row: {
+          clan_tag: string | null
           created_at: string | null
           data: Json | null
           id: string
@@ -18,6 +46,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          clan_tag?: string | null
           created_at?: string | null
           data?: Json | null
           id?: string
@@ -25,6 +54,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          clan_tag?: string | null
           created_at?: string | null
           data?: Json | null
           id?: string

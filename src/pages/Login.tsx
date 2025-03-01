@@ -16,6 +16,16 @@ const Login = () => {
   const [playerTag, setPlayerTag] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Format the player tag - strip # if entered and clean whitespace
+  const formatPlayerTag = (tag: string) => {
+    // Remove spaces, hash at beginning if exists
+    let formattedTag = tag.trim();
+    if (formattedTag.startsWith("#")) {
+      formattedTag = formattedTag.substring(1);
+    }
+    return formattedTag;
+  };
+
   // If user is already logged in, redirect to home page
   if (user) {
     return <Navigate to="/" />;
@@ -31,7 +41,15 @@ const Login = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await signUp(email, password, playerTag);
+
+    const formattedTag = playerTag ? formatPlayerTag(playerTag) : "";
+    
+    await signUp(
+      email, 
+      password, 
+      formattedTag ? formattedTag : undefined
+    );
+    
     setLoading(false);
   };
 
@@ -128,6 +146,9 @@ const Login = () => {
                       value={playerTag}
                       onChange={(e) => setPlayerTag(e.target.value)}
                     />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Providing your player tag will let us fetch your clan information automatically.
+                    </p>
                   </div>
                 </CardContent>
                 <CardFooter>
