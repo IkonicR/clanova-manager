@@ -1,10 +1,18 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Home, Users, Trophy, Swords, Settings, Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Home, Users, Trophy, Swords, Settings, Search, LogOut } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
-const navItems = [
+interface NavItem {
+  path: string;
+  name: string;
+  icon: JSX.Element;
+  requiresAuth?: boolean;
+}
+
+const navItems: NavItem[] = [
   {
     path: "/",
     name: "Home",
@@ -29,6 +37,7 @@ const navItems = [
     path: "/clan-lookup",
     name: "Clan Lookup",
     icon: <Search className="h-5 w-5" />,
+    requiresAuth: true,
   },
   {
     path: "/settings",
@@ -38,8 +47,14 @@ const navItems = [
 ];
 
 const FloatingNav = () => {
-  const [activeTab, setActiveTab] = useState("/");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    setActiveTab(location.pathname);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +65,25 @@ const FloatingNav = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Filter nav items based on auth status
+  const filteredNavItems = navItems.filter(item => 
+    !item.requiresAuth || (item.requiresAuth && user)
+  );
+
+  // Add login/logout item
+  const authItem = user 
+    ? {
+        path: "#",
+        name: "Logout",
+        icon: <LogOut className="h-5 w-5" />,
+        onClick: signOut,
+      }
+    : {
+        path: "/login",
+        name: "Login",
+        icon: <LogOut className="h-5 w-5 rotate-180" />,
+      };
 
   return (
     <div className="w-full flex justify-center fixed top-5 z-50">
@@ -62,7 +96,7 @@ const FloatingNav = () => {
         }`}
       >
         <div className="flex items-center space-x-1 md:space-x-3">
-          {navItems.map((item) => (
+          {filteredNavItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
@@ -90,6 +124,49 @@ const FloatingNav = () => {
               )}
             </Link>
           ))}
+
+          {/* Auth button (Login/Logout) */}
+          {authItem.onClick ? (
+            <button
+              onClick={authItem.onClick}
+              className="relative"
+            >
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 md:p-3 rounded-full transition-all duration-300 text-white/60 hover:text-white"
+              >
+                {authItem.icon}
+                <span className="sr-only">{authItem.name}</span>
+              </motion.div>
+            </button>
+          ) : (
+            <Link
+              to={authItem.path}
+              onClick={() => setActiveTab(authItem.path)}
+              className="relative"
+            >
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`p-2 md:p-3 rounded-full transition-all duration-300 ${
+                  activeTab === authItem.path
+                    ? "bg-clan-accent text-white"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                {authItem.icon}
+                <span className="sr-only">{authItem.name}</span>
+              </motion.div>
+              {activeTab === authItem.path && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </Link>
+          )}
         </div>
       </motion.div>
     </div>
