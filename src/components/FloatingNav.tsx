@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Home, Users, Trophy, Swords, Settings } from "lucide-react";
+import { Home, Users, Trophy, Swords, Settings, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const navItems = [
@@ -24,6 +24,11 @@ const navItems = [
     path: "/trophies",
     name: "Trophies",
     icon: <Trophy className="h-5 w-5" />,
+  },
+  {
+    path: "/clan-lookup",
+    name: "Clan Lookup",
+    icon: <Search className="h-5 w-5" />,
   },
   {
     path: "/settings",

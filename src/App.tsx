@@ -9,6 +9,7 @@ import Members from "./pages/Members";
 import Wars from "./pages/Wars";
 import Trophies from "./pages/Trophies";
 import Settings from "./pages/Settings";
+import ClanLookup from "./pages/ClanLookup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/wars" element={<Wars />} />
           <Route path="/trophies" element={<Trophies />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/clan-lookup" element={<ClanLookup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
