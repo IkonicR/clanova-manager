@@ -15,6 +15,8 @@ interface RequestBody {
 }
 
 serve(async (req) => {
+  console.log("Edge function getplayerdata called");
+  
   try {
     // Handle preflight OPTIONS request
     if (req.method === "OPTIONS") {
@@ -28,6 +30,7 @@ serve(async (req) => {
     const { playerTag } = await req.json() as RequestBody;
     
     if (!playerTag) {
+      console.error("Missing player tag");
       return new Response(
         JSON.stringify({ error: "Player tag is required" }),
         {
@@ -56,11 +59,13 @@ serve(async (req) => {
     );
 
     if (!playerResponse.ok) {
-      console.error(`CoC API Error: ${playerResponse.status}`);
+      const responseText = await playerResponse.text();
+      console.error(`CoC API Error: ${playerResponse.status}, ${responseText}`);
       return new Response(
         JSON.stringify({ 
           error: "Unable to fetch player data",
-          details: await playerResponse.text()
+          details: responseText,
+          status: playerResponse.status
         }),
         {
           headers: { ...corsHeaders, "Content-Type": "application/json" },

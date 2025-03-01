@@ -23,13 +23,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     );
   }
 
-  // For debugging, let's always allow access to the protected content for now
-  // This will help us identify if the auth system is causing the blank screen
-  console.log("ProtectedRoute - Allowing access to protected content");
-  return <>{children}</>;
-
-  // Uncomment this for proper auth protection once the page renders correctly
-  /*
   // If user is not logged in, redirect to login page
   if (!user) {
     console.log("ProtectedRoute - Redirecting to login");
@@ -39,7 +32,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   // If user is logged in, show the protected content
   console.log("ProtectedRoute - Showing protected content");
   return <>{children}</>;
-  */
 };
 
 export default ProtectedRoute;

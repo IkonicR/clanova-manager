@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Session, User } from "@supabase/supabase-js";
@@ -31,10 +30,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  console.log("AuthProvider - Initializing");
+
   useEffect(() => {
     // Set up initial session and user
     const fetchSession = async () => {
+      console.log("AuthProvider - Fetching session");
       const { data } = await supabase.auth.getSession();
+      console.log("AuthProvider - Got session:", data.session ? "Session exists" : "No session");
       setSession(data.session);
       setUser(data.session?.user || null);
       setLoading(false);
@@ -44,7 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, currentSession) => {
+      (event, currentSession) => {
+        console.log("AuthProvider - Auth state changed:", event);
         setSession(currentSession);
         setUser(currentSession?.user || null);
         setLoading(false);

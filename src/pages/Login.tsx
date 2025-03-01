@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signIn, signUp, user } = useAuth();
@@ -15,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [playerTag, setPlayerTag] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Format the player tag - strip # if entered and clean whitespace
   const formatPlayerTag = (tag: string) => {
@@ -34,8 +35,12 @@ const Login = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await signIn(email, password);
+    const result = await signIn(email, password);
     setLoading(false);
+    
+    if (!result.error) {
+      navigate("/");
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -44,13 +49,17 @@ const Login = () => {
 
     const formattedTag = playerTag ? formatPlayerTag(playerTag) : "";
     
-    await signUp(
+    const result = await signUp(
       email, 
       password, 
       formattedTag ? formattedTag : undefined
     );
     
     setLoading(false);
+    
+    if (!result.error) {
+      navigate("/");
+    }
   };
 
   return (
