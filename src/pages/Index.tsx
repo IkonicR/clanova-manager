@@ -137,11 +137,13 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black to-transparent opacity-30"></div>
       </div>
 
+      <FloatingNav />
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="container px-4 pt-6 relative z-10"
+        className="container px-4 pt-20 relative z-10"
       >
         {/* Clan Header Section */}
         <motion.div
@@ -326,8 +328,6 @@ const Index = () => {
           </motion.div>
         </div>
       </motion.div>
-
-      <FloatingNav />
     </div>
   );
 };
