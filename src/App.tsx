@@ -15,15 +15,12 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Configure React Query with better error handling
+// Configure React Query with better defaults
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
-      refetchOnWindowFocus: false,
-      onError: (error) => {
-        console.error("Query error:", error);
-      }
+      refetchOnWindowFocus: false
     }
   }
 });
